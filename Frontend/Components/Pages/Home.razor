@@ -1,0 +1,82 @@
+﻿@page "/"
+@using Frontend.Services
+@inject QueueService QueueService
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div class="mt-4">
+    <h3>Send Message to Azure Storage Queue</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input @bind="messageText" @onkeypress="HandleKeyPress" type="text" class="form-control" placeholder="Enter your message..." />
+                <button @onclick="SendMessage" disabled="@isLoading" class="btn btn-primary">
+                    @if (isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                    }
+                    Send Message
+                </button>
+            </div>
+            @if (!string.IsNullOrEmpty(statusMessage))
+            {
+                <div class="alert @(isSuccess ? "alert-success" : "alert-danger") mt-2">
+                    @statusMessage
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string messageText = string.Empty;
+    private string statusMessage = string.Empty;
+    private bool isLoading = false;
+    private bool isSuccess = false;
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(messageText))
+        {
+            statusMessage = "Please enter a message.";
+            isSuccess = false;
+            return;
+        }
+
+        isLoading = true;
+        statusMessage = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            await QueueService.SendMessageAsync(messageText);
+            statusMessage = $"Message '{messageText}' sent successfully!";
+            isSuccess = true;
+            messageText = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Failed to send message: {ex.Message}";
+            isSuccess = false;
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SendMessage();
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "profiles": {
+    "https": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21117",
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22091"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:17094;http://localhost:15260"
+    },
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19030",
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20276"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:15260"
+    },
+    "deploy": {
+      "commandName": "Project",
+      "commandLineArgs": "--publisher default --output-path .generated --operation publish --deploy true"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
