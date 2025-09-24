@@ -29,12 +29,6 @@ processor
         {
             Name = "queue-rule",
             JobScaleRuleType = "azure-queue",
-            //Metadata = BinaryData.FromObjectAsJson(new
-            //{
-            //    accountName = storageQueue.Resource.Parent.Parent.NameOutputReference.AsProvisioningParameter(infra),
-            //    queueName = "myqueue",
-            //    queueLength = 1
-            //})
             Metadata = new ObjectExpression(
                 new PropertyExpression("accountName", new IdentifierExpression(accountNameParameter.BicepIdentifier)),
                 new PropertyExpression("queueName", new StringLiteralExpression(storageQueue.Resource.QueueName)),
