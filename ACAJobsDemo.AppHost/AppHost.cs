@@ -13,7 +13,7 @@ var storageQueue = builder.AddAzureStorage("storage")
     .AddQueue("myqueue");
 
 var processor = builder.AddProject<Projects.ACAJobsDemo_ProcessorJob>("processor")
-    .WithReference(storageQueue);
+    .WithReference(storageQueue).WaitFor(storageQueue);
 processor
     .PublishAsAzureContainerAppJob((infra, job) =>
     {

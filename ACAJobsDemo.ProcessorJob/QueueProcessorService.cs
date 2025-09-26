@@ -88,7 +88,7 @@ public class QueueProcessorService : BackgroundService
             await Task.Delay(100, cancellationToken);
 
             // Log the message content
-            _logger.LogInformation("Successfully processed message: {MessageText}", message.MessageText);
+            _logger.LogCritical("Successfully processed message: {MessageText}", message.MessageText);
 
             // Delete the message from the queue after successful processing
             await _queueClient.DeleteMessageAsync(message.MessageId, message.PopReceipt, cancellationToken);
